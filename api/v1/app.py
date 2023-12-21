@@ -4,13 +4,15 @@
 from models import storage
 from api.v1.views import app_views
 from os import getenv
-from flask import Flask, render_template, make_response, jsonify
+from flask import Flask, render_template, make_response, jsonify, Blueprint
+from flask_cors import CORS
 
 # Create Flask app
 app = Flask(__name__)
 
 # Create blueprint
 app.register_blueprint(app_views)
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 # Declare method to handle @app.teardown that calls storage.close
