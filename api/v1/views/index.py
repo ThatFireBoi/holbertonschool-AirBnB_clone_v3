@@ -32,4 +32,5 @@ def stats():
     classes = {"amenities": Amenity, "cities": City, "places": Place,
                "reviews": Review, "states": State, "users": User}
     # Return a JSON response with the count of each class
-    return jsonify({key: storage.count(value) for key, value in classes.items()})
+    return jsonify({key: storage.count(value) for key,
+                    value in classes.items()})
