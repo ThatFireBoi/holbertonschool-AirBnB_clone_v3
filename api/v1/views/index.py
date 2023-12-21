@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Index view for api v1"""
 
 # Import necessary modules and classes
