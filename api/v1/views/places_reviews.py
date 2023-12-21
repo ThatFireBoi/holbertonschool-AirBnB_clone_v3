@@ -105,7 +105,8 @@ def update_review(review_id):
         abort(make_response(jsonify({"error": "Not a JSON"}), 400))
     # Update the Review object
     for key, value in json.items():
-        if key not in ["id", "user_id", "place_id", "created_at", "updated_at"]:
+        if key not in ["id", "user_id", "place_id",
+                       "created_at", "updated_at"]:
             setattr(review, key, value)
     # Save the Review object
     storage.save()
