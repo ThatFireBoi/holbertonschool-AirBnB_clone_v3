@@ -9,7 +9,7 @@ from models.state import State
 
 
 # Define route to return JSON of all State objects
-@app_views.route("/states", methods=['GET'])
+@app_views.route("/states", methods=['GET'], strict_slashes=False)
 def get_states():
     """Returns JSON of all State objects"""
     # Create a list of all State objects
@@ -19,7 +19,7 @@ def get_states():
 
 
 # Define route to return JSON of a State object
-@app_views.route("/states/<state_id>", methods=['GET'])
+@app_views.route("/states/<state_id>", methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """Returns JSON of a State object"""
     # Get the State object with the given id
@@ -32,7 +32,7 @@ def get_state(state_id):
 
 
 # Define route to delete a State object
-@app_views.route("/states/<state_id>", methods=['DELETE'])
+@app_views.route("/states/<state_id>", methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """Deletes a State object"""
     # Get the State object with the given id
@@ -49,7 +49,7 @@ def delete_state(state_id):
 
 
 # Define route to create a State object
-@app_views.route("/states", methods=['POST'])
+@app_views.route("/states", methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a State object"""
     # Get the JSON from the request
@@ -71,7 +71,7 @@ def create_state():
 
 
 # Define route to update a State object
-@app_views.route("/states/<state_id>", methods=['PUT'])
+@app_views.route("/states/<state_id>", methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """Updates a State object"""
     # Get the State object with the given id
