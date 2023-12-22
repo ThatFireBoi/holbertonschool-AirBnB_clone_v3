@@ -9,7 +9,8 @@ from models.state import State
 
 
 # Define route to return JSON of all City objects
-@app_views.route("/states/<state_id>/cities", methods=['GET'])
+@app_views.route("/states/<state_id>/cities", methods=['GET'],
+                 strict_slashes=False)
 def get_cities(state_id):
     """Returns JSON of all City objects"""
     # Get the State object with the given id
@@ -24,7 +25,7 @@ def get_cities(state_id):
 
 
 # Define route to return JSON of a City object
-@app_views.route("/cities/<city_id>", methods=['GET'])
+@app_views.route("/cities/<city_id>", methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """Returns JSON of a City object"""
     # Get the City object with the given id
@@ -37,7 +38,7 @@ def get_city(city_id):
 
 
 # Define route to delete a City object
-@app_views.route("/cities/<city_id>", methods=['DELETE'])
+@app_views.route("/cities/<city_id>", methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Deletes a City object"""
     # Get the City object with the given id
@@ -54,7 +55,8 @@ def delete_city(city_id):
 
 
 # Define route to create a City object
-@app_views.route("/states/<state_id>/cities", methods=['POST'])
+@app_views.route("/states/<state_id>/cities", methods=['POST'],
+                 strict_slashes=False)
 def create_city(state_id):
     """Creates a City object"""
     # Get the State object with the given id
@@ -82,7 +84,7 @@ def create_city(state_id):
 
 
 # Define route to update a City object
-@app_views.route("/cities/<city_id>", methods=['PUT'])
+@app_views.route("/cities/<city_id>", methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """Updates a City object"""
     # Get the City object with the given id
