@@ -8,7 +8,7 @@ from models.amenity import Amenity
 
 
 # Define route to return JSON of all Amenity objects
-@app_views.route("/amenities", methods=['GET'])
+@app_views.route("/amenities", methods=['GET'], strict_slashes=False)
 def get_amenities():
     """Returns JSON of all Amenity objects"""
     # Create a list of all Amenity objects
@@ -19,7 +19,8 @@ def get_amenities():
 
 
 # Define route to return JSON of a Amenity object
-@app_views.route("/amenities/<amenity_id>", methods=['GET'])
+@app_views.route("/amenities/<amenity_id>", methods=['GET'],
+                 strict_slashes=False)
 def get_amenity(amenity_id):
     """Returns JSON of a Amenity object"""
     # Get the Amenity object with the given id
@@ -32,7 +33,8 @@ def get_amenity(amenity_id):
 
 
 # Define route to delete a Amenity object
-@app_views.route("/amenities/<amenity_id>", methods=['DELETE'])
+@app_views.route("/amenities/<amenity_id>", methods=['DELETE'],
+                 strict_slashes=False)
 def delete_amenity(amenity_id):
     """Deletes a Amenity object"""
     # Get the Amenity object with the given id
@@ -49,7 +51,7 @@ def delete_amenity(amenity_id):
 
 
 # Define route to create a Amenity object
-@app_views.route("/amenities", methods=['POST'])
+@app_views.route("/amenities", methods=['POST'], strict_slashes=False)
 def create_amenity():
     """Creates a Amenity object"""
     # Get the JSON from the request
@@ -69,7 +71,8 @@ def create_amenity():
 
 
 # Define route to update a Amenity object
-@app_views.route("/amenities/<amenity_id>", methods=['PUT'])
+@app_views.route("/amenities/<amenity_id>", methods=['PUT'],
+                 strict_slashes=False)
 def update_amenity(amenity_id):
     """Updates a Amenity object"""
     # Get the Amenity object with the given id
