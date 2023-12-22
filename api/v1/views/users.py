@@ -8,7 +8,7 @@ from models.user import User
 
 
 # Define route to return JSON of all User objects
-@app_views.route("/users", methods=['GET'])
+@app_views.route("/users", methods=['GET'], strict_slashes=False)
 def get_users():
     """Returns JSON of all User objects"""
     # Create a list of all User objects
@@ -18,7 +18,7 @@ def get_users():
 
 
 # Define route to return JSON of a User object
-@app_views.route("/users/<user_id>", methods=['GET'])
+@app_views.route("/users/<user_id>", methods=['GET'], strict_slashes=False)
 def get_user(user_id):
     """Returns JSON of a User object"""
     # Get the User object with the given id
@@ -31,7 +31,7 @@ def get_user(user_id):
 
 
 # Define route to delete a User object
-@app_views.route("/users/<user_id>", methods=['DELETE'])
+@app_views.route("/users/<user_id>", methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
     """Deletes a User object"""
     # Get the User object with the given id
@@ -48,7 +48,7 @@ def delete_user(user_id):
 
 
 # Define route to create a User object
-@app_views.route("/users", methods=['POST'])
+@app_views.route("/users", methods=['POST'], strict_slashes=False)
 def create_user():
     """Creates a User object"""
     # Get the JSON from the request
@@ -72,7 +72,7 @@ def create_user():
 
 
 # Define route to update a User object
-@app_views.route("/users/<user_id>", methods=['PUT'])
+@app_views.route("/users/<user_id>", methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
     """Updates a User object"""
     # Get the User object with the given id
