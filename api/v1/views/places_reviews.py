@@ -8,7 +8,8 @@ from models.review import Review
 
 
 # Define route to return JSON of all Review objects
-@app_views.route("/places/<place_id>/reviews", methods=['GET'])
+@app_views.route("/places/<place_id>/reviews", methods=['GET'],
+                 strict_slashes=False)
 def get_reviews(place_id):
     """Returns JSON of all Review objects"""
     # Get the Place object with the given id
@@ -23,7 +24,7 @@ def get_reviews(place_id):
 
 
 # Define route to return JSON of a Review object
-@app_views.route("/reviews/<review_id>", methods=['GET'])
+@app_views.route("/reviews/<review_id>", methods=['GET'], strict_slashes=False)
 def get_review(review_id):
     """Returns JSON of a Review object"""
     # Get the Review object with the given id
@@ -36,7 +37,8 @@ def get_review(review_id):
 
 
 # Define route to delete a Review object
-@app_views.route("/reviews/<review_id>", methods=['DELETE'])
+@app_views.route("/reviews/<review_id>", methods=['DELETE'],
+                 strict_slashes=False)
 def delete_review(review_id):
     """Deletes a Review object"""
     # Get the Review object with the given id
@@ -53,7 +55,8 @@ def delete_review(review_id):
 
 
 # Define route to create a Review object
-@app_views.route("/places/<place_id>/reviews", methods=['POST'])
+@app_views.route("/places/<place_id>/reviews", methods=['POST'],
+                 strict_slashes=False)
 def create_review(place_id):
     """Creates a Review object"""
     # Get the Place object with the given id
@@ -90,7 +93,7 @@ def create_review(place_id):
 
 
 # Define route to update a Review object
-@app_views.route("/reviews/<review_id>", methods=['PUT'])
+@app_views.route("/reviews/<review_id>", methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
     """Updates a Review object"""
     # Get the Review object with the given id
