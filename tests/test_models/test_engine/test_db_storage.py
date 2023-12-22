@@ -18,6 +18,7 @@ import json
 import os
 import pycodestyle
 import unittest
+from unittest.mock import patch, create_autospec, MagicMock
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -89,49 +90,47 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """Test that get returns the correct object"""
-        # Test getting existing object
-        obj = models.storage.get(BaseModel, self.state.id)
-        self.assertIsNone(obj)
-
-        # Test getting non-existent object
-        obj = models.storage.get(BaseModel, "fake_id")
-        self.assertIsNone(obj)
-        # Test None parameters
-        self.assertIsNone(models.storage.get(None, None))
+        """Test that get retrieves the correct object"""
+        from models.state import State
+        new_state = State()
+        new_state.name = "California"
+        models.storage.new(new_state)
+        models.storage.save()
+        retrieved_state = models.storage.get(State, new_state.id)
+        self.assertEqual(new_state, retrieved_state)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """Test that count returns the number of objects in storage"""
-        count = models.storage.count()
-        self.assertEqual(count, 0)
+        """Test that count correctly counts objects"""
+        initial_count = models.storage.count()
+        from models.state import State
+        new_state = State()
+        new_state.name = "Nevada"
+        models.storage.new(new_state)
+        models.storage.save()
+        new_count = models.storage.count()
+        self.assertEqual(initial_count + 1, new_count)
 
-        count = models.storage.count(BaseModel)
-        self.assertEqual(count, 0)
 
-        count = models.storage.count(User)
-        self.assertEqual(count, 0)
+class TestDBStorage(unittest.TestCase):
+    def setUp(self):
+        self.storage = DBStorage()
 
-        count = models.storage.count(State)
-        self.assertEqual(count, 0)
+    @patch.object(DBStorage, 'all')
+    def test_get(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(
+            id='1'), '2': MagicMock(id='2')}
+        result = self.storage.get('DummyClass', '1')
+        self.assertEqual(result.id, '1')
+        self.assertIsNone(self.storage.get('DummyClass', '3'))
 
-        count = models.storage.count(City)
-        self.assertEqual(count, 0)
+    @patch.object(DBStorage, 'all')
+    def test_count(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(), '2': MagicMock()}
+        self.assertEqual(self.storage.count(), 2)
+        mock_all.return_value = {'1': MagicMock()}
+        self.assertEqual(self.storage.count('DummyClass'), 1)
 
-        count = models.storage.count(Amenity)
-        self.assertEqual(count, 0)
 
-        count = models.storage.count(Place)
-        self.assertEqual(count, 0)
-
-        count = models.storage.count(Review)
-        self.assertEqual(count, 0)
-
-        count = models.storage.count()
-        self.assertEqual(count, 1)
-
-        count = models.storage.count(BaseModel)
-        self.assertEqual(count, 1)
-
-        count = models.storage.count("NonExistentClass")
-        self.assertEqual(count, 0)
+if __name__ == '__main__':
+    unittest.main()

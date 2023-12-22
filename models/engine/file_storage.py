@@ -12,6 +12,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
@@ -55,7 +56,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
@@ -74,10 +75,8 @@ class FileStorage:
         A method to retrieve one object. Returns the object based
         on the class and its ID, or None if not found
         """
-        if cls is None or id is None:
-            return None
-        for obj in self.all().values():
-            if obj.__class__.__name__ == cls and obj.id == id:
+        for obj in self.all(cls).values():
+            if obj.id == id:
                 return obj
         return None
 
@@ -87,7 +86,7 @@ class FileStorage:
         the number of objects in storage matching the given class name.
         If no class is passed, returns the count of all objects in storage.
         """
-        if cls is None:
-            return len(self.all())
-        else:
+        if cls:
             return len(self.all(cls))
+        else:
+            return len(self.all())

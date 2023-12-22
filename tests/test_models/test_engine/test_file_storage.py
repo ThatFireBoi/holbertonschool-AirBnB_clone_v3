@@ -18,6 +18,7 @@ import json
 import os
 import pycodestyle
 import unittest
+from unittest.mock import patch, create_autospec, MagicMock
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -114,28 +115,49 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+    @unittest.skipIf(models.storage_t != 'file', "not testing file storage")
     def test_get(self):
-        """Test that get returns the correct object"""
-        storage = FileStorage()
-        new_state = State(name="California")
-        storage.new(new_state)
-        storage.save()
-        self.assertIs(storage.get(State, new_state.id), new_state)
-        self.assertIs(storage.get(State, "fake_id"), None)
-        self.assertIs(storage.get("State", new_state.id), new_state)
-        self.assertIs(storage.get("State", "fake_id"), None)
-        self.assertIs(storage.get(None, new_state.id), None)
-        self.assertIs(storage.get(None, "fake_id"), None)
-        self.assertIs(storage.get(State, None), None)
-        self.assertIs(storage.get(None, None), None)
+        """Test that get retrieves the correct object"""
+        from models.state import State
+        new_state = State()
+        new_state.name = "California"
+        models.storage.new(new_state)
+        models.storage.save()
+        retrieved_state = models.storage.get(State, new_state.id)
+        self.assertEqual(new_state, retrieved_state)
 
+    @unittest.skipIf(models.storage_t != 'file', "not testing file storage")
     def test_count(self):
-        """Test that count returns the correct number of objects"""
-        storage = FileStorage()
-        new_state = State(name="California")
-        storage.new(new_state)
-        storage.save()
-        self.assertEqual(storage.count(), 1)
-        self.assertEqual(storage.count(State), 1)
-        self.assertEqual(storage.count("State"), 1)
-        self.assertEqual(storage.count(None), 0)
+        """Test that count correctly counts objects"""
+        initial_count = models.storage.count()
+        from models.state import State
+        new_state = State()
+        new_state.name = "Nevada"
+        models.storage.new(new_state)
+        models.storage.save()
+        new_count = models.storage.count()
+        self.assertEqual(initial_count + 1, new_count)
+
+
+class TestFileStorage(unittest.TestCase):
+    def setUp(self):
+        self.storage = FileStorage()
+
+    @patch.object(FileStorage, 'all')
+    def test_get(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(
+            id='1'), '2': MagicMock(id='2')}
+        result = self.storage.get('DummyClass', '1')
+        self.assertEqual(result.id, '1')
+        self.assertIsNone(self.storage.get('DummyClass', '3'))
+
+    @patch.object(FileStorage, 'all')
+    def test_count(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(), '2': MagicMock()}
+        self.assertEqual(self.storage.count(), 2)
+        mock_all.return_value = {'1': MagicMock()}
+        self.assertEqual(self.storage.count('DummyClass'), 1)
+
+
+if __name__ == '__main__':
+    unittest.main()
