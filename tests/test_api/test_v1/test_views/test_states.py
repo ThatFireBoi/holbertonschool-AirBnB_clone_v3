@@ -173,7 +173,10 @@ class TestState(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_update_state_invalid_state_id(self):
-        """Tests the PUT method on /states/<state_id> with an invalid state_id"""
+        """
+        Tests the PUT method on /states/<state_id> with an
+        invalid state_id
+        """
         # Create a dictionary containing the JSON request
         json = {"name": "New York"}
         # Get the JSON response
