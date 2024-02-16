@@ -179,7 +179,7 @@ EOF  all  create  destroy  help  quit  show  update
 
 Some HTML elements do not display correctly.
 
-## Dificulties
+## Difficulties
 
 It proved challenging, and to a lesser extent still does, getting some of the tags to display correctly in the HTML. Another issue that continously rears its head is an error related to the foreign keys in the database, making it so the database cannot be initiated.
 
