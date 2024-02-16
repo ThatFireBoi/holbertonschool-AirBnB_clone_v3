@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """User objects that handles all default RestFul API actions"""
 
+# import the necessary modules
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
 from models import storage
