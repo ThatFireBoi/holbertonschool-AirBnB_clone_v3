@@ -20,6 +20,7 @@ The console is the first segment of the AirBnB project at Holberton School that 
 - [Usage](#usage)
 - [Examples of use](#examples-of-use)
 - [Bugs](#bugs)
+- [Difficulties](#difficulties)
 - [Authors](#authors)
 - [License](#license)
 
@@ -176,7 +177,11 @@ EOF  all  create  destroy  help  quit  show  update
 
 ## Bugs
 
-No known bugs at this time.
+Some HTML elements do not display correctly.
+
+## Dificulties
+
+It proved challenging, and to a lesser extent still does, getting some of the tags to display correctly in the HTML. Another issue that continously rears its head is an error related to the foreign keys in the database, making it so the database cannot be initiated.
 
 ## Authors
 
